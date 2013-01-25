@@ -19,8 +19,8 @@ main(int argc, char **argv) {
 
 No?  Neither did I.  This is horrible.  
 
-Function C Programming Doc
-==========================
+Functional C Programming Doc
+============================
 
 Our basic type is the list.
 
