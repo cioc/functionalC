@@ -20,6 +20,8 @@ list *append(list *l, void *v);
 
 list *concat(list *h, list *t); 
 
+list *copy(list *h); 
+
 void freelist(list *l, bool objs); 
 
 #endif

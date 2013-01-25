@@ -37,8 +37,10 @@ bind(closure *c, void *(*fn)(list *), envobj *env) {
 
 void *
 call(closure *c, envobj *env) {
-  c->env = append(c->env, (void *)env);
-  return c->fn(c->env);
+  
+  list *copylist = copy(c->env);
+  copylist = append(copylist, (void *)env);
+  return c->fn(copylist);
 }
 
 //helper functions (syntactic sugar...erm...i guess...)
@@ -48,6 +50,18 @@ liftint(int a) {
   int *v = malloc(sizeof(int));
   *v = a;
   envobj *o = envitem((void *)v, sizeof(int)); 
+  return o;
+}
+
+list *
+liftlist(list *l, ssize_t s) {
+  list *o = NULL;
+  list *curr;
+
+  for (curr = l; curr != NULL; curr = curr->next) {
+     envobj *lifted = envitem(curr->val, s); 
+     o = append(o, (void *)lifted);
+  }
   return o;
 }
 

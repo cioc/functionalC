@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "list.h"
 #include "functional.h"
+#include "closure.h"
 
 //some standard functional programming functions
 void
@@ -18,6 +19,16 @@ map(list *l, void *(*fn)(void *, void *), void *args) {
   list *curr;
   for (curr = l; curr != NULL; curr = curr->next) {
     o = append(o, (*fn)(curr->val, args));
+  }
+  return o;
+}
+
+list *
+lmap(list *l, closure *cl) {
+  list *o = NULL;
+  list *curr;
+  for (curr = l; curr != NULL; curr = curr->next) {
+    o = append(o, call(cl, (envobj *)curr->val)); 
   }
   return o;
 }

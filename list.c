@@ -47,6 +47,17 @@ concat(list *h, list *t) {
 	return h;	
 }
 
+//shallow copy
+list *
+copy(list *l) {
+  list *o = NULL;
+  list *curr;
+  for (curr = l; curr != NULL; curr = curr->next) {
+    o = append(o, curr->val);
+  }
+  return o; 
+}
+
 //objs flag set to true will also free the objects in the list
 void
 freelist(list *l, bool objs) {

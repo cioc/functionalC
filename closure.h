@@ -16,7 +16,7 @@ struct envobj {
   ssize_t size;
 };
 
-envobj *envitem(void *var, ssize_t size);
+envobj *envitem(void *var, ssize_t s);
 
 void *unbox(list *l); 
 
@@ -26,5 +26,6 @@ void *call(closure *c, envobj *env);
 
 envobj *liftint(int a); 
 
+list *liftlist(list *l, ssize_t s); 
 
 #endif 

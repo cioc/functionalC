@@ -48,5 +48,10 @@ main(int argc, char **argv) {
   printf("%d\n", *(int *)call(addtwo, liftint(3)));
   printf("%d\n", *(int *)call(addten, liftint(3)));
 
+  //all together now, with pseudo types everywhere woopie!!!
+  list *vars = liftlist(range(0, 10), sizeof(int));
+  list *res = lmap(vars, addtwo);
+  iter(res, printint, NULL);
+
   exit(0);
 }
