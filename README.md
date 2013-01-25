@@ -19,6 +19,11 @@ main(int argc, char **argv) {
   printf("%d\n", *(int *)call(addtwo, liftint(3)));
   printf("%d\n", *(int *)call(addten, liftint(3)));
 
+  //all together now, with pseudo types everywhere woopie!!!
+  list *vars = liftlist(range(0, 10), sizeof(int));
+  list *res = lmap(vars, addtwo);
+  iter(res, printint, NULL);
+
   exit(0);
 }
 ```
@@ -52,6 +57,12 @@ iter(list *l, void (*fn)(void *, void *), void *args)
 //yeah, it's map
 list *
 map(list *l, void *(*fn)(void *, void *), void *args)
+```
+
+```c
+//lifted map is so that you can map closures; maybe we'll unify the type system later...
+list *
+lmap(list *l, closure *cl)
 ```
 
 ```c
@@ -96,9 +107,16 @@ void *
 call(closure *c, envobj *env);
 ```
 
-To make environment variables, we need to lift our types into the environment.  So far, i've only added one lifted type, the lifted int:
+To make environment variables, we need to lift our types into the environment.  
 
 ```c
+//returns a lifted integer
 envobj *
 liftint(int a);
+```
+
+```c
+//this transforms a list into an environment
+list *
+liftlist(list *l, ssize_t s) 
 ```
