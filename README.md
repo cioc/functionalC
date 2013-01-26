@@ -1,7 +1,9 @@
 functionalC
 ===========
 
-Not because it is good, but because we can...
+Not because it is good, but because we can... 
+
+(Blog Post on subject: http://blog.charlescary.com/?p=95)
 
 e.g. Don't you always wish that you could write like this when you are programming in C?
 
