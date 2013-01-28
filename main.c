@@ -20,7 +20,7 @@ odd(void *v, void *args) {
 //boy is this terrible
 void *
 dbl(void *v, void *args) {
-  int *o = (int *)malloc(sizeof(int)); 
+  int *o = malloc(sizeof(int)); 
   *o = *((int *)v) * 2;
   return o;
 }

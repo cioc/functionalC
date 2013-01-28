@@ -5,7 +5,7 @@
 
 list *
 newitem(void *v) {
-  list *o = (list *)malloc(sizeof(list));
+  list *o = malloc(sizeof(list));
   if (o == NULL) {
     exit(1);
   }
@@ -16,7 +16,7 @@ newitem(void *v) {
 
 list *
 copyitem(list *i) {
-  list *o = (list *)malloc(sizeof(list));
+  list *o = malloc(sizeof(list));
   if (o == NULL) {
     exit(1);
   }
