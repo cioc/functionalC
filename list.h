@@ -13,16 +13,12 @@ struct list {
 };
 
 list *newitem(void *v); 
-
 list *copyitem(list *i); 
-
 list *append(list *l, void *v); 
-
 list *concat(list *h, list *t); 
-
 list *copy(list *h); 
+void list_free(void *); 
 
-void freelist(list *l, bool objs); 
 
 #endif
 

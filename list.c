@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "list.h"
+#include "gc.h"
 
 list *
 newitem(void *v) {
@@ -11,6 +12,7 @@ newitem(void *v) {
   }
   o->val = v;
   o->next = NULL;
+  gc_register((void *)o, LIST);
   return o;
 }
 
@@ -60,16 +62,9 @@ copy(list *l) {
 
 //objs flag set to true will also free the objects in the list
 void
-freelist(list *l, bool objs) {
-  list *curr = l;
-  while (curr != NULL) {
-    list *n = curr->next;
-    if (objs) {
-      free(curr->val);
-    }
-    free(curr);
-    curr = n;
-  }
+list_free(void *_l) {
+  list *l = _l;
+  free(l); 
 }
 
 

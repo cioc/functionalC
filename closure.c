@@ -2,12 +2,14 @@
 #include <unistd.h>
 #include "list.h"
 #include "closure.h"
+#include "gc.h"
 
 envobj *
 envitem(void *var, ssize_t size) {
   envobj *env = malloc(sizeof(envobj));
   env->val = var;
   env->size = size;
+  gc_register((void *)env, ENVOBJ);
   return env;
 }
 
@@ -27,6 +29,7 @@ bind(closure *c, void *(*fn)(list *), envobj *env) {
     }
     cl->env = NULL;
     cl->fn = fn;
+    gc_register((void *)cl, CLOSURE);
   }
   else {
     cl = c;
@@ -37,7 +40,6 @@ bind(closure *c, void *(*fn)(list *), envobj *env) {
 
 void *
 call(closure *c, envobj *env) {
-  
   list *copylist = copy(c->env);
   copylist = append(copylist, (void *)env);
   return c->fn(copylist);
@@ -49,8 +51,15 @@ envobj *
 liftint(int a) {
   int *v = malloc(sizeof(int));
   *v = a;
+  gc_register((void *)v, STANDARD);
   envobj *o = envitem((void *)v, sizeof(int)); 
   return o;
+}
+
+void
+envobj_free(void *_obj) {
+  envobj *obj = _obj;
+  free(obj);
 }
 
 list *
@@ -65,3 +74,8 @@ liftlist(list *l, ssize_t s) {
   return o;
 }
 
+void
+closure_free(void *_c) {
+  closure *c = _c;
+  free(c);
+}
