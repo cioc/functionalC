@@ -136,3 +136,71 @@ liftint(int a);
 list *
 liftlist(list *l, ssize_t s) 
 ```
+
+# Garbage Collector
+
+The garbage collector is defined is gc.c . It maintains a linked list of every reference you register with it.  On a call to gc_collect, it frees the references based on the handlers that you have specified.
+
+```c
+//this starts the garbage collector.  You should call this before you do anything else
+void gc_init(void);
+```
+
+Lists, environment objects, and closures are automatically registered with the garbage collector.
+
+```c
+//supported types
+enum TYPE {
+  LIST,
+  ENVOBJ,  
+  CLOSURE,
+  STANDARD //gc's an generic obj   
+};
+```
+
+To register any pointer:
+
+```c
+//type = STANDARD with for a generic pointer
+void 
+gc_register(void *obj, TYPE type);
+```
+
+To register a new type with the garbage collector, add it to enum TYPE (update gc.h), and then update gc_init to register your handler.
+
+```c
+void 
+gc_register_destructor(TYPE, void (*)(void *));
+```
+A call to gc_collect performs garbage collection:
+
+```c
+void
+gc_collect(void);
+```
+
+Other functions:
+
+```c
+//prints what the garbage collector is tracking
+void 
+gc_print(void);
+```
+
+Expirimental / Untested functionality:
+
+```c
+//tells the garbage collector to mark an object for safe keeping.
+//it will now be tracked by the collector, but not freed until it is unmarked.
+void 
+gc_mark(void *obj);
+
+//unmarks an object
+void 
+gc_unmark(void *obj);
+
+//tells the garbage collector to stop tracking an object
+void 
+gc_remove(void *obj);
+```
+
