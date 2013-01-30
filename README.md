@@ -10,7 +10,9 @@ e.g. Don't you always wish that you could write like this when you are programmi
 ```c
 int
 main(int argc, char **argv) {
-  //LET THE MEMORY LEAKING BEGIN!!!
+  //yep, added first version of garbage collector
+  gc_init(); //initialize the garbage collector
+
   iter(map(range(0, 10), dbl,NULL), printint, NULL);
   iter(filter(range(0, 10), odd, NULL), printint, NULL); 
   
@@ -26,8 +28,20 @@ main(int argc, char **argv) {
   list *res = lmap(vars, addtwo);
   iter(res, printint, NULL);
 
+  gc_print(); //show eveything currently in the garbage collector
+
+  gc_collect(); //you can guess what this does
+
+  gc_print(); //anything left?
+  
+  //NOTE: The garbage collector is a work in progress.  
+  //we're not tracking everything yet and 
+  //the collector doesn't necessarily avoid double frees!
+  //BEWARE!!!
+
   exit(0);
 }
+
 ```
 
 No?  Neither did I.  This is horrible.  
